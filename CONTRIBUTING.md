@@ -25,7 +25,7 @@ cd dash/
 yarn
 
 # copy the env example and maybe adjust envs if some ports are already in use
-cp example.env .env
+cp .env.example .env
 
 # to start development
 yarn dev
