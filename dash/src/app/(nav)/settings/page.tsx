@@ -20,6 +20,7 @@ export default function SettingsPage() {
 	const [sectorFastest, setSectorFastest] = useState<boolean>(false);
 	const [carMetrics, setCarMetrics] = useState<boolean>(false);
 	const [showCornerNumbers, setShowCornerNumbers] = useState<boolean>(false);
+	const [raceControlChime, setAlertRaceControlMessage] = useState<boolean>(false);
 
 	const [speedPreference, setSpeedPreference] = useState<SpeedPreference>("km/h");
 
@@ -39,13 +40,14 @@ export default function SettingsPage() {
 			setSectorFastest(customSettings.sectorFastest);
 			setCarMetrics(customSettings.carMetrics);
 			setShowCornerNumbers(customSettings.showCornerNumbers);
+			setAlertRaceControlMessage(customSettings.raceControlChime);
 
 			const speedPreferenceStorage = (localStorage.getItem("speedPreference") as SpeedPreference) ?? "km/h";
 			setSpeedPreference(speedPreferenceStorage);
 		}
 	}, []);
 
-	const handleUpdate = (type: "sector" | "table" | "car" | "corner", newValue: boolean) => {
+	const handleUpdate = (type: "sector" | "table" | "car" | "corner" | "chime", newValue: boolean) => {
 		if (typeof window != undefined) {
 			const customStorage = localStorage.getItem("custom");
 			const customSettings: UiElements = customStorage ? JSON.parse(customStorage) : modes.custom;
@@ -65,6 +67,10 @@ export default function SettingsPage() {
 				}
 				case "corner": {
 					customSettings.showCornerNumbers = newValue;
+					break;
+				}
+				case "chime": {
+					customSettings.raceControlChime = newValue;
 					break;
 				}
 			}
@@ -150,6 +156,17 @@ export default function SettingsPage() {
 					}}
 				/>
 				<p className="text-zinc-500">Show Corner Numbers on Track Map</p>
+			</div>
+
+			<div className="flex gap-2">
+				<Toggle
+					enabled={raceControlChime}
+					setEnabled={(v) => {
+						setAlertRaceControlMessage(v);
+						handleUpdate("chime", v);
+					}}
+				/>
+				<p className="text-zinc-500">Play a chime when a new RaceControl Message appears.</p>
 			</div>
 
 			<h2 className="my-4 text-2xl">Delay</h2>

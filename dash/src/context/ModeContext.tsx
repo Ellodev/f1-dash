@@ -15,6 +15,7 @@ export type UiElements = {
 	sectorFastest: boolean;
 	carMetrics: boolean;
 	showCornerNumbers: boolean;
+	raceControlChime: boolean;
 };
 
 type Mode = "simple" | "advanced" | "expert" | "custom";
@@ -29,18 +30,21 @@ export const modes: Modes = {
 		sectorFastest: false,
 		carMetrics: false,
 		showCornerNumbers: false,
+		raceControlChime: false,
 	},
 	advanced: {
 		tableHeaders: true,
 		sectorFastest: true,
 		carMetrics: false,
 		showCornerNumbers: true,
+		raceControlChime: false,
 	},
 	expert: {
 		tableHeaders: false,
 		sectorFastest: false,
 		carMetrics: true,
 		showCornerNumbers: true,
+		raceControlChime: false,
 	},
 	// custom is used as default values
 	custom: {
@@ -48,6 +52,7 @@ export const modes: Modes = {
 		sectorFastest: false,
 		carMetrics: false,
 		showCornerNumbers: false,
+		raceControlChime: false,
 	},
 };
 

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { utc } from "moment";
+import { useEffect } from "react";
 
 import { Message } from "@/types/state.type";
 import { toTrackTime } from "@/lib/toTrackTime";
@@ -11,6 +12,20 @@ type Props = {
 };
 
 export function RaceControlMessage({ msg, utcOffset }: Props) {
+	useEffect(() => {
+		if (typeof window !== "undefined") {
+			const customSettings = localStorage.getItem("custom");
+
+			if (customSettings) {
+				const parsedSettings = JSON.parse(customSettings);
+
+				if (parsedSettings.raceControlChime === true) {
+					const audio = new Audio("/sounds/chime.mp3");
+					audio.play();
+				}
+			}
+		}
+	}, [msg]);
 	return (
 		<motion.li animate={{ opacity: 1, y: 0 }} initial={{ opacity: 0, y: -20 }} className="flex flex-col gap-1">
 			<div className="flex items-center gap-1 text-sm font-medium leading-none text-gray-500">

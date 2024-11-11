@@ -7,6 +7,7 @@ import { RaceControlMessage } from "@/components/RaceControlMessage";
 
 import { RaceControlMessages } from "@/types/state.type";
 
+
 type Props = {
 	messages: RaceControlMessages | undefined;
 	utcOffset: string;
