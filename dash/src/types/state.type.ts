@@ -110,6 +110,7 @@ export type RaceControlMessages = {
 };
 
 export type Message = {
+	id: string | null;
 	utc: string;
 	lap: number;
 	message: string;

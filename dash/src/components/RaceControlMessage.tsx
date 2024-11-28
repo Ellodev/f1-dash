@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { utc } from "moment";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 import { Message } from "@/types/state.type";
 import { toTrackTime } from "@/lib/toTrackTime";
@@ -11,18 +11,33 @@ type Props = {
 	utcOffset: string;
 };
 
+const loadTime = new Date();
+
 export function RaceControlMessage({ msg, utcOffset }: Props) {
+	const lastMessageIdRef = useRef<string | null>(null);
+
 	useEffect(() => {
+		const msgTime = new Date(msg.utc)
+		console.log(loadTime);
+		console.log(msgTime);
+
 		if (typeof window !== "undefined") {
-			const customSettings = localStorage.getItem("custom");
+			if (loadTime < msgTime) {
+				if (msg.id !== lastMessageIdRef.current) {
+					lastMessageIdRef.current = msg.id;
 
-			if (customSettings) {
-				const parsedSettings = JSON.parse(customSettings);
+					const customSettings = localStorage.getItem("custom");
 
-				if (parsedSettings.raceControlChime === true) {
-					const audio = new Audio("/sounds/chime.mp3");
-					audio.play();
-				}
+					if (customSettings) {
+						const parsedSettings = JSON.parse(customSettings);
+
+						if (parsedSettings.raceControlChime === true) {
+							const audio = new Audio("/sounds/chime.mp3");
+							audio.play();
+							console.log("played audio")
+						}
+					}
+			  }
 			}
 		}
 	}, [msg]);
